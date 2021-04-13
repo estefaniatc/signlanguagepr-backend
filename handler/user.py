@@ -24,7 +24,9 @@ class UsersHandler:
     def getUserById(uid):
         try:
             user = Users.getUserById(uid)
-            user_dict = Utilities.to_dict(user)
+            user_dict = None
+            if(user):
+                user_dict = Utilities.to_dict(user)
             result = {
                 "message": "Success!",
                 "user": user_dict
