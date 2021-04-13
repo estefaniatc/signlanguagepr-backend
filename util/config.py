@@ -9,7 +9,7 @@ app = flask.Flask(__name__)
 app.secret_key = "asles"
 
 if 'DATABASE_URL' in environ:
-    app.config['SQLALCHEMY_DATABASE_URI'] = environ['DATABASE_URL']
+    app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DATABASE_URL?sslmode=require')
 else:
     app.config['SQLALCHEMY_DATABASE_URI'] = DEV_DB
 
