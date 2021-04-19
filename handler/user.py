@@ -1,4 +1,5 @@
 from flask import jsonify, session
+import bcrypt as bcrypt
 from dao.users import Users
 from util.utilities import Utilities
 
@@ -82,9 +83,9 @@ class UsersHandler:
                 return jsonify(reason="Must fill both username and password fields."), 400
             user = Users.getUserByEmail(json['email'])
             user_dic = Utilities.to_dict(user)
-            if user and user.password == json['password']:
+            password = json['password']
+            if user and bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
                 session['logged_in'] = True
-                status = True
                 result = {
                     "message": "Success!",
                     "user": user_dic
