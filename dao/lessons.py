@@ -10,6 +10,7 @@ class Lessons(db.Model):
     video_url = db.Column(db.String(500), nullable=False)
     max_xp = db.Column(db.Integer, nullable=True)
     lesson_img = db.Column(db.String(500), nullable=True)
+    quiz_url = db.Column(db.String(150), nullable=True)
 
     def __init__(self, **args):
         self.lname = args.get('lname')
@@ -18,6 +19,7 @@ class Lessons(db.Model):
         self.video_url = args.get('video_url')
         self.max_xp = args.get('max_xp')
         self.lesson_img = args.get('lesson_img')
+        self.quiz_url = args.get('quiz_url')
 
     @property
     def pk(self):
