@@ -9,6 +9,9 @@ class Models(db.Model):
     answer = db.Column(db.String(100), nullable=False)
     xp = db.Column(db.Integer, nullable=True)
     model_name = db.Column(db.String(50), nullable=True)
+    boxes = db.Column(db.Integer, nullable=True)
+    scores = db.Column(db.Integer, nullable=True)
+    classes = db.Column(db.Integer, nullable=True)
 
     def __init__(self, **args):
         self.lesson_id = args.get('lesson_id')
@@ -17,6 +20,9 @@ class Models(db.Model):
         self.answer = args.get('answer')
         self.xp = args.get('xp')
         self.model_name = args.get('model_name')
+        self.boxes = args.get('boxes')
+        self.scores = args.get('scores')
+        self.classes = args.get('classes')
 
     @property
     def pk(self):
