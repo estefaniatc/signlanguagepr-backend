@@ -6,7 +6,7 @@ class ModelsHandler:
     @staticmethod
     def getAllModels():
         try:
-            models = Models.getQuizzes()
+            models = Models.getModels()
             result_list = []
             for modl in models:
                 result_list.append(Utilities.to_dict(modl))
@@ -21,7 +21,7 @@ class ModelsHandler:
     @staticmethod
     def getModelById(model_id):
         try:
-            modl = Models.getQuizById(model_id)
+            modl = Models.getModelById(model_id)
             mod_dict = Utilities.to_dict(modl)
             result = {
                 "message": "Success!",
@@ -34,7 +34,7 @@ class ModelsHandler:
     @staticmethod
     def getModelsByLessonId(lesson_id):
         try:
-            models = Models.getQuizzesByLessonId(lesson_id)
+            models = Models.getModelsByLessonId(lesson_id)
             result_list = []
             for modl in models:
                 result_list.append(Utilities.to_dict(modl))

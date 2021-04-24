@@ -88,7 +88,7 @@ def getLevelById(lid):
 
 # MODELS ENDPOINTS
 @app.route('/models', methods=['GET'])
-def getAllQuizzes():
+def getAllModels():
     if request.method == 'GET':
         return ModelsHandler.getAllModels()
     else:
