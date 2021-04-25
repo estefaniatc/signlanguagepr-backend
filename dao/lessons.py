@@ -31,7 +31,7 @@ class Lessons(db.Model):
 
     @staticmethod
     def getLessonById(lid):
-        return Lessons().query.filter_by(lesson_id=lid).first()
+        return Lessons().query.filter_by(lesson_id=lid).order_by(Lessons.pk()).first()
 
     @staticmethod
     def getLessonsByLevelId(levid):
