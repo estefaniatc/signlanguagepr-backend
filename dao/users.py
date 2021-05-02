@@ -7,11 +7,13 @@ class Users(db.Model):
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), nullable=False)
     password = db.Column(db.String(100), nullable=False)
+    picture_url = db.Column(db.String(200), nullable=False)
 
     def __init__(self, **args):
         self.name = args.get('name')
         self.email = args.get('email')
         self.password = args.get('password')
+        self.picture_url = args.get('picture_url')
 
     @property
     def pk(self):
