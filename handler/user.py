@@ -66,7 +66,7 @@ class UsersHandler:
                     user_to_update.update()
                     result = {
                         "message": "Success!",
-                        "user": user_to_update.to_dict(),
+                        "user": Utilities.to_dict(user_to_update),
                     }
                     return jsonify(result), 200
                 else:
