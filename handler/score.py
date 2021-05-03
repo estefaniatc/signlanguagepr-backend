@@ -48,36 +48,6 @@ class ScoresHandler:
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), 500
 
-    @staticmethod
-    def getScoresByQuizId(qid):
-        try:
-            scores = Scores.getScoresByQuizId(qid)
-            result_list = []
-            for score in scores:
-                result_list.append(Utilities.to_dict(score))
-            result = {
-                "message": "Success!",
-                "scores": result_list
-            }
-            return jsonify(result), 200
-        except Exception as e:
-            return jsonify(reason="Server error", error=e.__str__()), 500
-
-    @staticmethod
-    def getScoresByQuizIdAndUserId(uid, qid):
-        try:
-            scores = Scores.getScoresByQuizIdAndUserId(qid, uid)
-            result_list = []
-            for score in scores:
-                result_list.append(Utilities.to_dict(score))
-            result = {
-                "message": "Success!",
-                "scores": result_list
-            }
-            return jsonify(result), 200
-        except Exception as e:
-            return jsonify(reason="Server error", error=e.__str__()), 500
-
     # getScoresByLessonIdAndUserId
     @staticmethod
     def getScoresByLessonIdAndUserId(lid, uid):
@@ -96,7 +66,7 @@ class ScoresHandler:
 
     @staticmethod
     def createScore(json):
-        valid_params = Utilities.verify_parameters(json, ['user_id', 'quiz_id', 'lesson_id'])
+        valid_params = Utilities.verify_parameters(json, ['user_id', 'lesson_id'])
         if valid_params:
             try:
                 new_score = Scores(**valid_params)

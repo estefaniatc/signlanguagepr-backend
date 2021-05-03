@@ -137,20 +137,6 @@ def getScoresByUserId(uid):
     else:
         return jsonify(message="Method not allowed."), 405
 
-@app.route('/scores/quiz/<int:qid>', methods=['GET'])
-def getScoresByQuizId(qid):
-    if request.method == 'GET':
-        return ScoresHandler().getScoresByQuizId(qid)
-    else:
-        return jsonify(message="Method not allowed."), 405
-
-@app.route('/scores/userAndQuiz/<int:uid>/<int:qid>', methods=['GET'])
-def getScoresByQuizIdAndUserId(uid, qid):
-    if request.method == 'GET':
-        return ScoresHandler().getScoresByQuizIdAndUserId(uid, qid)
-    else:
-        return jsonify(message="Method not allowed."), 405
-
 @app.route('/scores/lesson/<int:lid>/<int:uid>', methods=['GET'])
 def getScoresByLessonIdAndUserId(lid, uid):
     if request.method == 'GET':
