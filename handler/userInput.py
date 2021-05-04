@@ -1,79 +1,63 @@
 from flask import jsonify, session
-from dao.scores import Scores
+from dao.userInputs import UserInputs
 from util.myhandler import MyHandler
 
 
-class ScoresHandler:
+class UserInputHandler:
 
     @staticmethod
-    def getAllScores():
+    def getUserInputs():
         try:
-            scores = Scores.getScores()
+            inputs = UserInputs.getUserInputs()
             result_list = []
-            for score in scores:
-                result_list.append(score.to_dict())
+            for input in inputs:
+                result_list.append(input.to_dict())
             result = {
                 "message": "Success!",
-                "scores": result_list
+                "userInput": result_list
             }
             return jsonify(result), 200
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), 500
 
     @staticmethod
-    def getScoresById(sid):
+    def getUserInputById(ui_id):
         try:
-            score = Scores.getScoresById(sid)
-            score_dict = score.to_dict()
+            input = UserInputs.getUserInputById(ui_id)
+            input_dict = input.to_dict()
             result = {
                 "message": "Success!",
-                "score": score_dict
+                "userInput": input_dict
             }
             return jsonify(result), 200
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), 500
 
     @staticmethod
-    def getScoresByUserId(uid):
+    def getUserInputsByScoreId(sid):
         try:
-            scores = Scores.getScoresByUserId(uid)
+            inputs = UserInputs.getUserInputsByScoreId(sid)
             result_list = []
-            for score in scores:
-                result_list.append(score.to_dict())
+            for input in inputs:
+                result_list.append(input.to_dict())
             result = {
                 "message": "Success!",
-                "scores": result_list
-            }
-            return jsonify(result), 200
-        except Exception as e:
-            return jsonify(reason="Server error", error=e.__str__()), 500
-
-    # getScoresByLessonIdAndUserId
-    @staticmethod
-    def getScoresByLessonIdAndUserId(lid, uid):
-        try:
-            scores = Scores.getScoresByLessonIdAndUserId(lid, uid)
-            result_list = []
-            for score in scores:
-                result_list.append(score.to_dict())
-            result = {
-                "message": "Success!",
-                "scores": result_list
+                "userInput": result_list
             }
             return jsonify(result), 200
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), 500
 
     @staticmethod
-    def createScore(json):
-        valid_params = MyHandler.verify_parameters(json, ['user_id', 'lesson_id'])
+    def createUserInput(json):
+        valid_params = MyHandler.verify_parameters(json, ['score_id'])
         if valid_params:
             try:
-                new_score = Scores(**valid_params)
-                created_score = new_score.create()
+                new_input = UserInputs(**valid_params)
+                created_input = new_input.create()
                 result = {
                     "message": "Success!",
-                    "score": created_score.to_dict(),
+                    "userInput": created_input.to_dict(),
                 }
                 return jsonify(result), 201
             except Exception as err:
@@ -82,18 +66,18 @@ class ScoresHandler:
             return jsonify(message="Bad Request!"), 400
 
     @staticmethod
-    def updateScore(sid,json):
-        valid_params = MyHandler.verify_parameters(json, ['score_id'])
-        if sid and valid_params:
+    def updateUserInput(ui_id,json):
+        valid_params = MyHandler.verify_parameters(json, ['userInput_id'])
+        if ui_id and valid_params:
             try:
-                score_to_update = Scores.getScoreById(sid)
-                if score_to_update:
+                input_to_update = UserInputs.getUserInputById(ui_id)
+                if input_to_update:
                     for key, value in valid_params.items():
-                        setattr(score_to_update, key, value)
-                    score_to_update.update()
+                        setattr(input_to_update, key, value)
+                    input_to_update.update()
                     result = {
                         "message": "Success!",
-                        "score": score_to_update.to_dict(),
+                        "userInput": input_to_update.to_dict(),
                     }
                     return jsonify(result), 200
                 else:
@@ -104,10 +88,10 @@ class ScoresHandler:
             return jsonify(message="Bad Request!"), 400
 
     @staticmethod
-    def deleteScore(sid):
+    def deleteUserInput(sid):
         if sid:
             try:
-                score_to_delete = Scores.getScoreById(sid)
+                score_to_delete = UserInputs.getUserInputById(sid)
                 if score_to_delete:
                     score_to_delete.delete()
                     return jsonify(message="Success!"), 200

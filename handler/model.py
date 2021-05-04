@@ -1,6 +1,5 @@
-from flask import jsonify, session
+from flask import jsonify
 from dao.models import Models
-from util.utilities import Utilities
 class ModelsHandler:
 
     @staticmethod
@@ -9,7 +8,7 @@ class ModelsHandler:
             models = Models.getModels()
             result_list = []
             for modl in models:
-                result_list.append(Utilities.to_dict(modl))
+                result_list.append(modl.to_dict())
             result = {
                 "message": "Success!",
                 "models": result_list
@@ -22,7 +21,7 @@ class ModelsHandler:
     def getModelById(model_id):
         try:
             modl = Models.getModelById(model_id)
-            mod_dict = Utilities.to_dict(modl)
+            mod_dict = modl.to_dict()
             result = {
                 "message": "Success!",
                 "model": mod_dict
@@ -37,7 +36,7 @@ class ModelsHandler:
             models = Models.getModelsByLessonId(lesson_id)
             result_list = []
             for modl in models:
-                result_list.append(Utilities.to_dict(modl))
+                result_list.append(modl.to_dict())
             result = {
                 "message": "Success!",
                 "models": result_list

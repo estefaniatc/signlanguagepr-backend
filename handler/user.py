@@ -1,7 +1,7 @@
 from flask import jsonify, session
 import bcrypt as bcrypt
 from dao.users import Users
-from util.utilities import Utilities
+from util.myhandler import MyHandler
 
 
 class UsersHandler:
@@ -12,7 +12,7 @@ class UsersHandler:
             users = Users.getUsers()
             result_list = []
             for user in users:
-                result_list.append(Utilities.to_dict(user))
+                result_list.append(user.to_dict())
             result = {
                 "message": "Success!",
                 "users": result_list
@@ -27,7 +27,7 @@ class UsersHandler:
             user = Users.getUserById(uid)
             user_dict = None
             if(user):
-                user_dict = Utilities.to_dict(user)
+                user_dict = user.to_dict()
             result = {
                 "message": "Success!",
                 "user": user_dict
@@ -40,7 +40,7 @@ class UsersHandler:
     def getUserByEmail(uemail):
         try:
             user = Users.getUserByEmail(uemail)
-            user_dict = Utilities.to_dict(user)
+            user_dict = user.to_dict()
             result = {
                 "message": "Success!",
                 "user": user_dict
@@ -51,7 +51,7 @@ class UsersHandler:
 
     @staticmethod
     def updateUser(uid, json):
-        valid_params = Utilities.verify_parameters(json, ["user_id"])
+        valid_params = MyHandler.verify_parameters(json, ["user_id"])
         if uid and valid_params:
             try:
                 user_to_update = Users.getUserById(uid)
@@ -66,7 +66,7 @@ class UsersHandler:
                     user_to_update.update()
                     result = {
                         "message": "Success!",
-                        "user": Utilities.to_dict(user_to_update),
+                        "user": user_to_update.to_dict(),
                     }
                     return jsonify(result), 200
                 else:
@@ -82,7 +82,7 @@ class UsersHandler:
             if json['email'] == "" or json['password'] == "":
                 return jsonify(reason="Must fill both username and password fields."), 400
             user = Users.getUserByEmail(json['email'])
-            user_dic = Utilities.to_dict(user)
+            user_dic = user.to_dict()
             password = json['password']
             if user and bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
                 session['logged_in'] = True
@@ -121,7 +121,7 @@ class UsersHandler:
     
     @staticmethod
     def createUser(json):
-        valid_params = Utilities.verify_parameters(json, ["name", "email", "password"])
+        valid_params = MyHandler.verify_parameters(json, ["name", "email", "password"])
         if valid_params:
             try:
                 print(valid_params)
@@ -132,7 +132,7 @@ class UsersHandler:
                 created_user = new_user.create()
                 result = {
                     "message": "Success!",
-                    "user": Utilities.to_dict(created_user),
+                    "user": created_user.to_dict(),
                 }
                 return jsonify(result), 201
             except Exception as err:

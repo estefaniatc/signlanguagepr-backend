@@ -1,7 +1,9 @@
 from util.config import db
+from util.utilities import Utilities
 
+class Levels(Utilities, db.Model):
+    RELATIONSHIPS_TO_DICT = True
 
-class Levels(db.Model):
     __tablename__ = 'levels'
     level_id = db.Column(db.Integer, primary_key=True)
     level_name = db.Column(db.String(100), nullable=False)
@@ -15,10 +17,10 @@ class Levels(db.Model):
 
     @staticmethod
     def getLevels():
-        return Levels().query.all()
+        return Levels.query.all()
 
     @staticmethod
     def getLevelById(lid):
-        return Levels().query.filter_by(level_id=lid).first()
+        return Levels.query.filter_by(level_id=lid).first()
 
  

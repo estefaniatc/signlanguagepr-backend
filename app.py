@@ -8,6 +8,9 @@ from handler.user import UsersHandler
 from handler.level import LevelsHandler
 from handler.model import ModelsHandler
 from handler.score import ScoresHandler
+from handler.question import QuestionsHandler
+from handler.answers import AnswersHandler
+from handler.userInput import UserInputHandler
 
 @app.route('/', methods=['GET'])
 def index():
@@ -141,6 +144,73 @@ def getScoresByUserId(uid):
 def getScoresByLessonIdAndUserId(lid, uid):
     if request.method == 'GET':
         return ScoresHandler().getScoresByLessonIdAndUserId(lid, uid)
+    else:
+        return jsonify(message="Method not allowed."), 405
+
+#QUESTIONS ENDPOINTS
+@app.route('/questions', methods=['GET', 'POST'])
+def getQuestions():
+    if request.method == 'GET':
+        return QuestionsHandler().getQuestions()
+    elif request.method == 'POST':
+        return QuestionsHandler().createQuestion(request.json)
+    else:
+        return jsonify(message="Method not allowed."), 405
+
+@app.route('/questions/<int:qid>', methods=['GET', 'PUT'])
+def getQuestionsById(qid):
+    if request.method == 'GET':
+        return QuestionsHandler().getQuestionsById(qid)
+    elif request.method == 'POST':
+        return QuestionsHandler().updateQuestion(qid, request.json)
+    else:
+        return jsonify(message="Method not allowed."), 405
+
+@app.route('/questions/lesson/<int:lid>', methods=['GET'])
+def getQuestionsByLessonId(lid):
+    if request.method == 'GET':
+        return QuestionsHandler().getQuestionsByLessonId(lid)
+    else:
+        return jsonify(message="Method not allowed."), 405
+
+#ANSWERS ENDPOINTS
+@app.route('/answers', methods=['GET', 'POST'])
+def getAnswers():
+    if request.method == 'GET':
+        return AnswersHandler().getAnswers()
+    elif request.method == 'POST':
+        return AnswersHandler().createAnswer(request.json)
+    else:
+        return jsonify(message="Method not allowed."), 405
+
+@app.route('/answers/question/<int:qid>', methods=['GET'])
+def getAnswerByQuestionId(qid):
+    if request.method == 'GET':
+        return AnswersHandler().getAnswerByQuestionId(qid)
+    else:
+        return jsonify(message="Method not allowed."), 405
+
+#USER INPUTS ENDPOINTS
+@app.route('/userInput', methods=['GET', 'POST'])
+def getUserInputs():
+    if request.method == 'GET':
+        return UserInputHandler().getUserInputs()
+    elif request.method == 'POST':
+        return UserInputHandler().createUserInput(request.json)
+    else:
+        return jsonify(message="Method not allowed."), 405
+
+@app.route('/userInput/<int:id>', methods=['GET'])
+def getUserInputById(id):
+    if request.method == 'GET':
+        return UserInputHandler().getUserInputById(id)
+    else:
+        return jsonify(message="Method not allowed."), 405
+
+@app.route('/userInput/score/<int:sid>', methods=['GET'])
+def getUserInputsByScoreId(sid):
+    if request.method == 'GET':
+        return UserInputHandler().getUserInputsByScoreId(sid)
     else:
         return jsonify(message="Method not allowed."), 405
 

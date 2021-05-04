@@ -1,79 +1,63 @@
 from flask import jsonify, session
-from dao.scores import Scores
+from dao.questions import Questions
 from util.myhandler import MyHandler
 
 
-class ScoresHandler:
+class QuestionsHandler:
 
     @staticmethod
-    def getAllScores():
+    def getQuestions():
         try:
-            scores = Scores.getScores()
+            questions = Questions.getQuestions()
             result_list = []
-            for score in scores:
-                result_list.append(score.to_dict())
+            for q in questions:
+                result_list.append(q.to_dict())
             result = {
                 "message": "Success!",
-                "scores": result_list
+                "questions": result_list
             }
             return jsonify(result), 200
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), 500
 
     @staticmethod
-    def getScoresById(sid):
+    def getQuestionsById(qid):
         try:
-            score = Scores.getScoresById(sid)
-            score_dict = score.to_dict()
+            question = Questions.getQuestionsById(qid)
+            quest_dict = question.to_dict()
             result = {
                 "message": "Success!",
-                "score": score_dict
+                "question": quest_dict
             }
             return jsonify(result), 200
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), 500
 
     @staticmethod
-    def getScoresByUserId(uid):
+    def getQuestionsByLessonId(lid):
         try:
-            scores = Scores.getScoresByUserId(uid)
+            questions = Questions.getQuestionsByLessonId(lid)
             result_list = []
-            for score in scores:
-                result_list.append(score.to_dict())
+            for q in questions:
+                result_list.append(q.to_dict())
             result = {
                 "message": "Success!",
-                "scores": result_list
-            }
-            return jsonify(result), 200
-        except Exception as e:
-            return jsonify(reason="Server error", error=e.__str__()), 500
-
-    # getScoresByLessonIdAndUserId
-    @staticmethod
-    def getScoresByLessonIdAndUserId(lid, uid):
-        try:
-            scores = Scores.getScoresByLessonIdAndUserId(lid, uid)
-            result_list = []
-            for score in scores:
-                result_list.append(score.to_dict())
-            result = {
-                "message": "Success!",
-                "scores": result_list
+                "questions": result_list
             }
             return jsonify(result), 200
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), 500
 
     @staticmethod
-    def createScore(json):
-        valid_params = MyHandler.verify_parameters(json, ['user_id', 'lesson_id'])
+    def createQuestion(json):
+        valid_params = MyHandler.verify_parameters(json, ['lesson_id', 'question'])
         if valid_params:
             try:
-                new_score = Scores(**valid_params)
-                created_score = new_score.create()
+                new_quest = Questions(**valid_params)
+                created_quest = new_quest.create()
                 result = {
                     "message": "Success!",
-                    "score": created_score.to_dict(),
+                    "question": created_quest.to_dict(),
                 }
                 return jsonify(result), 201
             except Exception as err:
@@ -82,18 +66,18 @@ class ScoresHandler:
             return jsonify(message="Bad Request!"), 400
 
     @staticmethod
-    def updateScore(sid,json):
-        valid_params = MyHandler.verify_parameters(json, ['score_id'])
-        if sid and valid_params:
+    def updateQuestion(qid,json):
+        valid_params = MyHandler.verify_parameters(json, ['question_id'])
+        if qid and valid_params:
             try:
-                score_to_update = Scores.getScoreById(sid)
-                if score_to_update:
+                q_to_update = Questions.getQuestionsById(qid)
+                if q_to_update:
                     for key, value in valid_params.items():
-                        setattr(score_to_update, key, value)
-                    score_to_update.update()
+                        setattr(q_to_update, key, value)
+                    q_to_update.update()
                     result = {
                         "message": "Success!",
-                        "score": score_to_update.to_dict(),
+                        "question": q_to_update.to_dict(),
                     }
                     return jsonify(result), 200
                 else:
@@ -104,12 +88,12 @@ class ScoresHandler:
             return jsonify(message="Bad Request!"), 400
 
     @staticmethod
-    def deleteScore(sid):
-        if sid:
+    def deleteQuestion(qid):
+        if qid:
             try:
-                score_to_delete = Scores.getScoreById(sid)
-                if score_to_delete:
-                    score_to_delete.delete()
+                q_to_delete = Questions.getQuestionsById(qid)
+                if q_to_delete:
+                    q_to_delete.delete()
                     return jsonify(message="Success!"), 200
                 else:
                     return jsonify(message="Not Found!"), 404

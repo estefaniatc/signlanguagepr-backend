@@ -1,7 +1,10 @@
 from util.config import db
+from util.utilities import Utilities
 
 
-class Lessons(db.Model):
+class Lessons(Utilities, db.Model):
+    RELATIONSHIPS_TO_DICT = True
+
     __tablename__ = 'lessons'
     lesson_id = db.Column(db.Integer, primary_key=True)
     lname = db.Column(db.String(100), nullable=False)
@@ -11,6 +14,8 @@ class Lessons(db.Model):
     max_xp = db.Column(db.Integer, nullable=True)
     lesson_img = db.Column(db.String(500), nullable=True)
     quiz_url = db.Column(db.String(150), nullable=True)
+    models = db.relationship("Models", backref=db.backref('lessons', lazy='subquery'), lazy=True)
+    questions = db.relationship("dao.questions.Questions", backref=db.backref('lessons', lazy='subquery'), lazy=True)
 
     def __init__(self, **args):
         self.lname = args.get('lname')
@@ -27,14 +32,12 @@ class Lessons(db.Model):
 
     @staticmethod
     def getAllLessons():
-        return Lessons().query.all()
+        return Lessons.query.all()
 
     @staticmethod
     def getLessonById(lid):
-        return Lessons().query.filter_by(lesson_id=lid).first()
+        return Lessons.query.filter_by(lesson_id=lid).first()
 
     @staticmethod
     def getLessonsByLevelId(levid):
-        return Lessons().query.filter_by(level_id=levid).all()
-
- 
+        return Lessons.query.filter_by(level_id=levid).all()

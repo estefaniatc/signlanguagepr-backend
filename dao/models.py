@@ -1,6 +1,9 @@
 from util.config import db
+from util.utilities import Utilities
 
-class Models(db.Model):
+class Models(Utilities, db.Model):
+    RELATIONSHIPS_TO_DICT = True
+
     __tablename__ = 'models'
     model_id = db.Column(db.Integer, primary_key=True)
     lesson_id = db.Column(db.Integer, db.ForeignKey('lessons.lesson_id'), nullable=False)
@@ -30,12 +33,12 @@ class Models(db.Model):
 
     @staticmethod
     def getModels():
-        return Models().query.all()
+        return Models.query.all()
 
     @staticmethod
     def getModelById(mid):
-        return Models().query.filter_by(model_id=mid).first()
+        return Models.query.filter_by(model_id=mid).first()
 
     @staticmethod
     def getModelsByLessonId(lid):
-        return Models().query.filter_by(lesson_id=lid).all()
+        return Models.query.filter_by(lesson_id=lid).all()

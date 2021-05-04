@@ -1,7 +1,10 @@
 from util.config import db
 import bcrypt as bcrypt
+from util.utilities import Utilities
 
-class Users(db.Model):
+class Users(Utilities,db.Model):
+    RELATIONSHIPS_TO_DICT = True
+
     __tablename__ = 'users'
     user_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
@@ -36,17 +39,17 @@ class Users(db.Model):
 
     @staticmethod
     def getUsers():
-        return Users().query.all()
+        return Users.query.all()
 
     @staticmethod
     def getUserById(uid):
-        return Users().query.filter_by(user_id=uid).first()
+        return Users.query.filter_by(user_id=uid).first()
 
     @staticmethod
     def getUserByEmail(uemail):
-        return Users().query.filter_by(email=uemail).first()
+        return Users.query.filter_by(email=uemail).first()
 
     @staticmethod
     def verifyEmail(uemail):
-        return len(Users().query.filter_by(email=uemail).all()) != 0
+        return len(Users.query.filter_by(email=uemail).all()) != 0
  

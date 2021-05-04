@@ -1,6 +1,5 @@
 from flask import jsonify, session
 from dao.lessons import Lessons
-from util.utilities import Utilities
 
 
 class LessonsHandler:
@@ -11,7 +10,7 @@ class LessonsHandler:
             lessons = Lessons.getAllLessons()
             result_list = []
             for lesson in lessons:
-                result_list.append(Utilities.to_dict(lesson))
+                result_list.append(lesson.to_dict())
             result = {
                 "message": "Success!",
                 "lesson": result_list
@@ -24,7 +23,7 @@ class LessonsHandler:
     def getLessonById(lesson_id):
         try:
             lesson = Lessons.getLessonById(lesson_id)
-            lesson_dict = Utilities.to_dict(lesson)
+            lesson_dict = lesson.to_dict()
             result = {
                 "message": "Success!",
                 "lesson": lesson_dict
@@ -39,7 +38,7 @@ class LessonsHandler:
             lessons = Lessons.getLessonsByLevelId(level_id)
             result_list = []
             for lesson in lessons:
-                result_list.append(Utilities.to_dict(lesson))
+                result_list.append(lesson.to_dict())
             result = {
                 "message": "Success!",
                 "lessons": result_list

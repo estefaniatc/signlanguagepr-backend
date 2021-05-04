@@ -1,6 +1,5 @@
 from flask import jsonify, session
 from dao.levels import Levels
-from util.utilities import Utilities
 class LevelsHandler:
 
     @staticmethod
@@ -9,7 +8,7 @@ class LevelsHandler:
             levels = Levels.getLevels()
             result_list = []
             for level in levels:
-                result_list.append(Utilities.to_dict(level))
+                result_list.append(level.to_dict())
             result = {
                 "message": "Success!",
                 "levels": result_list
@@ -22,7 +21,7 @@ class LevelsHandler:
     def getLevelById(level_id):
         try:
             level = Levels.getLevelById(level_id)
-            level_dict = Utilities.to_dict(level)
+            level_dict = level.to_dict()
             result = {
                 "message": "Success!",
                 "level": level_dict
@@ -30,12 +29,3 @@ class LevelsHandler:
             return jsonify(result), 200
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), 500
-
-   
-   
-
-
-
-    
-
-  

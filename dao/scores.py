@@ -1,22 +1,30 @@
 from util.config import db
+from util.utilities import Utilities
 
 
-class Scores(db.Model):
+class Scores(Utilities, db.Model):
+    RELATIONSHIPS_TO_DICT = True
+
     __tablename__ = 'scores'
     score_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     lesson_id = db.Column(db.Integer, db.ForeignKey('lessons.lesson_id'), nullable=False)
-    gained_xp = db.Column(db.Integer, nullable=True)
-    total_xp = db.Column(db.Integer, nullable=True)
-    quiz_summary_url = db.Column(db.String(500), nullable=True)
+    numberOfQuestions = db.Column(db.Integer, nullable=True)
+    numberOfCorrectAnswers = db.Column(db.Integer, nullable=True)
+    numberOfIncorrectAnswers = db.Column(db.Integer, nullable=True)
+    totalPoints = db.Column(db.Integer, nullable=True)
+    correctPoints = db.Column(db.Integer, nullable=True)
+    userInput = db.relationship("UserInputs", backref="scores", lazy=True)
 
     def __init__(self, **args):
         self.user_id = args.get('user_id')
         self.quiz_id = args.get('quiz_id')
         self.lesson_id = args.get('lesson_id')
-        self.gained_xp = args.get('gained_xp')
-        self.total_xp = args.get('total_xp')
-        self.quiz_summary_url = args.get('quiz_summary_url')
+        self.numberOfQuestions = args.get('numberOfQuestions')
+        self.numberOfCorrectAnswers = args.get('numberOfCorrectAnswers')
+        self.numberOfIncorrectAnswers = args.get('numberOfIncorrectAnswers')
+        self.totalPoints = args.get('totalPoints')
+        self.correctPoints = args.get('correctPoints')
 
     @property
     def pk(self):
@@ -38,16 +46,16 @@ class Scores(db.Model):
 
     @staticmethod
     def getScores():
-        return Scores().query.all()
+        return Scores.query.all()
 
     @staticmethod
     def getScoresById(sid):
-        return Scores().query.filter_by(score_id=sid).first()
+        return Scores.query.filter_by(score_id=sid).first()
 
     @staticmethod
     def getScoresByUserId(uid):
-        return Scores().query.filter_by(user_id=uid).all()
+        return Scores.query.filter_by(user_id=uid).all()
 
     @staticmethod
     def getScoresByLessonIdAndUserId(lid, uid):
-        return Scores().query.filter_by(lesson_id=lid, user_id=uid).all()
+        return Scores.query.filter_by(lesson_id=lid, user_id=uid).all()
