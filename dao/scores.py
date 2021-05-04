@@ -8,6 +8,7 @@ class Scores(db.Model):
     lesson_id = db.Column(db.Integer, db.ForeignKey('lessons.lesson_id'), nullable=False)
     gained_xp = db.Column(db.Integer, nullable=True)
     total_xp = db.Column(db.Integer, nullable=True)
+    quiz_summary_url = db.Column(db.String(500), nullable=True)
 
     def __init__(self, **args):
         self.user_id = args.get('user_id')
@@ -15,6 +16,7 @@ class Scores(db.Model):
         self.lesson_id = args.get('lesson_id')
         self.gained_xp = args.get('gained_xp')
         self.total_xp = args.get('total_xp')
+        self.quiz_summary_url = args.get('quiz_summary_url')
 
     @property
     def pk(self):
