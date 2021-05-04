@@ -15,7 +15,7 @@ class Lessons(Utilities, db.Model):
     lesson_img = db.Column(db.String(500), nullable=True)
     quiz_url = db.Column(db.String(150), nullable=True)
     models = db.relationship("Models", backref=db.backref('lessons', lazy='subquery'), lazy=True)
-    questions = db.relationship("dao.questions.Questions", backref=db.backref('lessons', lazy='subquery'), lazy=True)
+    # questions = db.relationship("dao.questions.Questions", backref=db.backref('lessons', lazy='subquery'), lazy=True)
 
     def __init__(self, **args):
         self.lname = args.get('lname')

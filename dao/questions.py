@@ -19,7 +19,7 @@ class Questions(Utilities, db.Model):
     questionIndex = db.Column(db.Integer, nullable=True)
     questionPic = db.Column(db.String(500), nullable=True)
 
-    # answers = db.relationship("dao.answers.Answers", backref=db.backref('questions', lazy='subquery'), lazy=True)
+    answers = db.relationship("dao.answers.Answers", backref=db.backref('questions', lazy='subquery'), lazy=True)
 
     def __init__(self, **args):
         self.lesson_id = args.get('lesson_id')
