@@ -11,6 +11,7 @@ from handler.score import ScoresHandler
 from handler.question import QuestionsHandler
 from handler.answers import AnswersHandler
 from handler.userInput import UserInputHandler
+from handler.progress import ProgressHandler
 
 @app.route('/', methods=['GET'])
 def index():
@@ -211,6 +212,40 @@ def getUserInputById(id):
 def getUserInputsByScoreId(sid):
     if request.method == 'GET':
         return UserInputHandler().getUserInputsByScoreId(sid)
+    else:
+        return jsonify(message="Method not allowed."), 405
+
+
+#PROGRESS ENDPOINTS
+@app.route('/progress', methods=['GET', 'POST'])
+def getProgress():
+    if request.method == 'GET':
+        return ProgressHandler().getAllProgress()
+    elif request.method == 'POST':
+        return ProgressHandler().createProgress(request.json)
+    else:
+        return jsonify(message="Method not allowed."), 405
+
+@app.route('/progress/<int:pid>', methods=['GET', 'PUT'])
+def getProgressById(pid):
+    if request.method == 'GET':
+        return ProgressHandler().getProgressById(pid)
+    elif request.method == 'PUT':
+        return ProgressHandler().updateProgress(pid, request.json)
+    else:
+        return jsonify(message="Method not allowed."), 405
+
+@app.route('/progress/user/<int:uid>', methods=['GET'])
+def getProgressByUserId(uid):
+    if request.method == 'GET':
+        return ProgressHandler().getProgressByUserId(uid)
+    else:
+        return jsonify(message="Method not allowed."), 405
+
+@app.route('/progress/lesson/<int:lid>/<int:uid>', methods=['GET'])
+def getProgressByLessonIdAndUserId(lid, uid):
+    if request.method == 'GET':
+        return ProgressHandler().getProgressByLessonIdAndUserId(lid, uid)
     else:
         return jsonify(message="Method not allowed."), 405
 

@@ -18,7 +18,6 @@ class Scores(Utilities, db.Model):
 
     def __init__(self, **args):
         self.user_id = args.get('user_id')
-        self.quiz_id = args.get('quiz_id')
         self.lesson_id = args.get('lesson_id')
         self.numberOfQuestions = args.get('numberOfQuestions')
         self.numberOfCorrectAnswers = args.get('numberOfCorrectAnswers')

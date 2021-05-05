@@ -11,6 +11,8 @@ class Users(Utilities,db.Model):
     email = db.Column(db.String(100), nullable=False)
     password = db.Column(db.String(100), nullable=False)
     picture_url = db.Column(db.String(200), nullable=False)
+    progress = db.relationship("Progress", backref=db.backref('users', lazy='subquery'), lazy=True)
+
 
     def __init__(self, **args):
         self.name = args.get('name')
