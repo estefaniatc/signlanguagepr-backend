@@ -14,6 +14,7 @@ class Lessons(Utilities, db.Model):
     max_xp = db.Column(db.Integer, nullable=True)
     lesson_img = db.Column(db.String(500), nullable=True)
     quiz_url = db.Column(db.String(150), nullable=True)
+    total_activities = db.Column(db.Integer, nullable=False)
     models = db.relationship("Models", backref=db.backref('lessons', lazy='subquery'), lazy=True)
     # questions = db.relationship("dao.questions.Questions", backref=db.backref('lessons', lazy='subquery'), lazy=True)
 
@@ -25,6 +26,7 @@ class Lessons(Utilities, db.Model):
         self.max_xp = args.get('max_xp')
         self.lesson_img = args.get('lesson_img')
         self.quiz_url = args.get('quiz_url')
+        self.total_activities = args.get('total_activities')
 
     @property
     def pk(self):
