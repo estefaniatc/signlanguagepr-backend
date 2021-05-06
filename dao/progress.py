@@ -52,3 +52,7 @@ class Progress(Utilities, db.Model):
     @staticmethod
     def getProgressByLessonIdAndUserId(lid, uid):
         return Progress.query.filter_by(lesson_id=lid, user_id=uid).all()
+
+    @staticmethod
+    def checkIfRepeated(lid, uid, tpe):
+        return len(Progress.query.filter_by(lesson_id=lid, user_id=uid, type=tpe).all()) == 0

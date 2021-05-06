@@ -66,8 +66,9 @@ class ProgressHandler:
 
     @staticmethod
     def createProgress(json):
-        valid_params = MyHandler.verify_parameters(json, ['user_id', 'lesson_id'])
-        if valid_params:
+        valid_params = MyHandler.verify_parameters(json, ['user_id', 'lesson_id', 'type'])
+        check = Progress.checkIfRepeated(json['lesson_id'], json['user_id'], json['type'])
+        if valid_params and check:
             try:
                 new_p = Progress(**valid_params)
                 created_p = new_p.create()
