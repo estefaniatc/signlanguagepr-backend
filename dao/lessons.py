@@ -34,7 +34,7 @@ class Lessons(Utilities, db.Model):
 
     @staticmethod
     def getAllLessons():
-        return Lessons.query.all()
+        return Lessons.query.order_by(Lessons.lesson_id).all()
 
     @staticmethod
     def getLessonById(lid):
