@@ -68,17 +68,18 @@ class ProgressHandler:
     def createProgress(json):
         valid_params = MyHandler.verify_parameters(json, ['user_id', 'lesson_id', 'type'])
         check = Progress.checkIfRepeated(json['lesson_id'], json['user_id'], json['type'])
-        if valid_params and check:
-            try:
-                new_p = Progress(**valid_params)
-                created_p = new_p.create()
-                result = {
-                    "message": "Success!",
-                    "progress": created_p.to_dict(),
-                }
-                return jsonify(result), 201
-            except Exception as err:
-                return jsonify(message="Server error!", error=err.__str__()), 500
+        if valid_params:
+            if check:
+                try:
+                    new_p = Progress(**valid_params)
+                    created_p = new_p.create()
+                    result = {
+                        "message": "Success!",
+                        "progress": created_p.to_dict(),
+                    }
+                    return jsonify(result), 201
+                except Exception as err:
+                    return jsonify(message="Server error!", error=err.__str__()), 500
         else:
             return jsonify(message="Bad Request!"), 400
 
