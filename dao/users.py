@@ -36,6 +36,12 @@ class Users(Utilities,db.Model):
         db.session.add(self)
         db.session.commit()
         return self
+    
+    def update_password(self, pass):
+        self.password = bcrypt.hashpw(pass.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+        db.session.add(self)
+        db.session.commit()
+        return self
 
     def delete(self):
         db.session.delete(self)
