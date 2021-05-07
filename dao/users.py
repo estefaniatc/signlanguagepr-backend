@@ -11,6 +11,7 @@ class Users(Utilities,db.Model):
     email = db.Column(db.String(100), nullable=False)
     password = db.Column(db.String(100), nullable=False)
     picture_url = db.Column(db.String(200), nullable=False)
+    total_points = db.Column(db.Integer, nullable=True)
     progress = db.relationship("Progress", backref=db.backref('users', lazy='subquery'), lazy=True)
 
 
@@ -19,6 +20,7 @@ class Users(Utilities,db.Model):
         self.email = args.get('email')
         self.password = args.get('password')
         self.picture_url = args.get('picture_url')
+        self.total_points = args.get('total_points')
 
     @property
     def pk(self):
@@ -41,7 +43,7 @@ class Users(Utilities,db.Model):
 
     @staticmethod
     def getUsers():
-        return Users.query.all()
+        return Users.query.order_by(Users.user_id).all()
 
     @staticmethod
     def getUserById(uid):

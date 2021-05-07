@@ -1,5 +1,6 @@
 from flask import jsonify, session
 from dao.scores import Scores
+from dao.users import Users
 from util.myhandler import MyHandler
 
 
@@ -71,9 +72,13 @@ class ScoresHandler:
             try:
                 new_score = Scores(**valid_params)
                 created_score = new_score.create()
+                user_to_update = Users.getUserById(json['user_id'])
+                setattr(user_to_update, "total_points", json['correctPoints'])
+                user_to_update.update()
                 result = {
                     "message": "Success!",
                     "score": created_score.to_dict(),
+                    "user": user_to_update.to_dict()
                 }
                 return jsonify(result), 201
             except Exception as err:
