@@ -9,7 +9,7 @@ class Progress(Utilities, db.Model):
     progress_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     lesson_id = db.Column(db.Integer, db.ForeignKey('lessons.lesson_id'), nullable=False)
-    type = db.Column(db.String(10), nullable=True)
+    type = db.Column(db.String(50), nullable=True)
     isCompleted = db.Column(db.Boolean, nullable=True)
 
     def __init__(self, **args):
