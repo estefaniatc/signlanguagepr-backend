@@ -73,7 +73,7 @@ class ScoresHandler:
                 new_score = Scores(**valid_params)
                 created_score = new_score.create()
                 user_to_update = Users.getUserById(json['user_id'])
-                setattr(user_to_update, "total_points", json['correctPoints'])
+                setattr(user_to_update, "total_points", user_to_update.total_points + int(json['correctPoints']))
                 user_to_update.update()
                 result = {
                     "message": "Success!",
