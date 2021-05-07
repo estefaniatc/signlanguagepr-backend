@@ -129,6 +129,7 @@ class UsersHandler:
                 if (emailExists):
                     return jsonify(message="email already taken."), 400
                 new_user = Users(**valid_params)
+                new_user.total_points = 0
                 created_user = new_user.create()
                 result = {
                     "message": "Success!",
