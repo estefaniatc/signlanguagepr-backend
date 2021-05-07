@@ -60,7 +60,7 @@ class UsersHandler:
                         if key == "password":
                             if value != user_to_update.password and not \
                                     bcrypt.checkpw(value.encode('utf-8'), user_to_update.password.encode('utf-8')):
-                                user_to_update.update_password(value)
+                                    setattr(user_to_update, key, bcrypt.hashpw(value.encode('utf-8'), bcrypt.gensalt()).decode('utf-8'))
                         else:
                             setattr(user_to_update, key, value)
                     user_to_update.update()
